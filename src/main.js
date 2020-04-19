@@ -5,6 +5,9 @@ import { routes } from './routes'
 import store from './store/store';
 
 Vue.use(VueRouter)
+Vue.filter('currency', (value) => {
+  return '\u20B9' + value.toLocaleString('en-IN');
+})
 
 const router = new VueRouter({
   mode: 'history',
