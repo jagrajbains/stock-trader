@@ -21,8 +21,8 @@
             Save & Load
           </a>
           <div class="dropdown-menu" :class="{show: isOpen}" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Save Data</a>
-            <a class="dropdown-item" href="#">Load Data</a>
+            <div class="dropdown-item" @click="saveData">Save Data</div>
+            <div class="dropdown-item" @click="loadData">Load Data</div>
           </div>
         </li>
       </ul>
@@ -45,10 +45,22 @@ export default {
   },
   methods: {
     ...mapActions([
-      'randomizeStocks'
+      'randomizeStocks',
+      'loadAsyncData'
     ]),
     endDay() {
       this.randomizeStocks();
+    },
+    saveData() {
+      const data = {
+        funds: this.$store.getters.funds,
+        stockPortfolio: this.$store.getters.stockPortfolio,
+        stocks: this.$store.getters.stocks
+      }
+      this.$http.put('data.json', data)
+    },
+    loadData() {
+      this.loadAsyncData()
     }
   }
 }
