@@ -7,10 +7,10 @@
       </div>
       <div class="card-body">
         <div class="float-left">
-          <input type="number" class="form-control" placeholder="Quantity" v-model="quantity">
+          <input type="number" class="form-control" :class="{danger: insufficientFunds}" min="0" placeholder="Quantity" v-model="quantity">
         </div>
         <div class="float-right">
-          <button class="btn btn-success" @click="buyStocks" :disabled="quantity <= 0 || !Number.isInteger(Number(quantity))">Buy</button>
+          <button class="btn btn-success" @click="buyStocks" :disabled="insufficientFunds || quantity <= 0 || !Number.isInteger(Number(quantity))">{{ insufficientFunds ? 'Insufficient Funds' : 'Buy'}}</button>
         </div>
       </div>
     </div>
@@ -27,6 +27,12 @@ export default {
       quantity: 0
     }
   },
+  computed: {
+    insufficientFunds() {
+      const funds = this.$store.getters.funds;
+      return this.quantity * this.stock.price > funds
+    }
+  },
   methods: {
     buyStocks() {
       let order = {
@@ -41,3 +47,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.danger {
+  border: 1px solid red;
+}
+</style>

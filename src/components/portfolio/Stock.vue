@@ -3,14 +3,21 @@
     <div class="card border-info">
       <div class="card-header">
         <h3 class="card-title">{{ stock.name }}</h3>
-        <h5 class="card-subtitle mb-2 text-muted">Price: {{ stock.price }} | Quantity: {{ stock.quantity }}</h5>
+        <h5 class="card-subtitle mb-2 text-muted">
+          Price: {{ stock.price }} | Quantity: {{ stock.quantity }}
+        </h5>
       </div>
       <div class="card-body">
         <div class="float-left">
-          <input type="number" class="form-control" placeholder="Quantity" v-model="quantity">
+          <input type="number" class="form-control" min="0" placeholder="Quantity" v-model="quantity">
         </div>
         <div class="float-right">
-          <button class="btn btn-info" @click="sellStocks" :disabled="quantity <= 0 || !Number.isInteger(Number(quantity))">Sell</button>
+          <button 
+          class="btn btn-info" 
+          @click="sellStocks" 
+          :disabled="insufficientQuantity || quantity <= 0 || !Number.isInteger(Number(quantity))">
+          {{ insufficientQuantity ? 'Insufficient Quantity' : 'Sell' }}
+          </button>
         </div>
       </div>
     </div>
@@ -26,6 +33,11 @@ export default {
   data() {
     return {
       quantity: 0
+    }
+  },
+  computed: {
+    insufficientQuantity() {
+      return this.quantity > this.stock.quantity
     }
   },
   methods: {
