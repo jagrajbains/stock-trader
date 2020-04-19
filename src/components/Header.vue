@@ -10,7 +10,7 @@
         <li class="nav-item">
           <div @click="endDay" class="endDay-btn">End Day</div>
         </li>
-        <li class="nav-item dropdown">
+        <li @click="isOpen = !isOpen" class="nav-item dropdown">
           <a 
           class="nav-link dropdown-toggle" 
           href="#" id="navbarDropdown" 
@@ -18,9 +18,9 @@
           data-toggle="dropdown" 
           aria-haspopup="true" 
           aria-expanded="false">
-            Dropdown
+            Save & Load
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <div class="dropdown-menu" :class="{show: isOpen}" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#">Save Data</a>
             <a class="dropdown-item" href="#">Load Data</a>
           </div>
@@ -33,6 +33,11 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
+  data() {
+    return {
+      isOpen: false
+    }
+  },
   computed: {
     funds() {
       return this.$store.getters.funds;
