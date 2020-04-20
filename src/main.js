@@ -5,6 +5,7 @@ import { routes } from './routes'
 import store from './store/store';
 import VueResource from 'vue-resource'
 
+console.log(process.env.VUE_APP_BASE_URI)
 Vue.use(VueRouter)
 Vue.use(VueResource)
 
